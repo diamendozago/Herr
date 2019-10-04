@@ -1,0 +1,21 @@
+OBJ=ej6-f1.o ej6-f2.o
+
+all : $(OBJ) ej6-main.x datos.txt figsines.pdf
+
+%.o : %.cpp
+	g++ -c $< -o $@
+
+ej6-main.x: ej6-sines-mod.cpp $(OBJ)
+	g++ $^ -o $@
+
+datos.txt: ej6-main.x
+	./$< > $@
+
+figsines.pdf: plotsines.gp
+	gnuplot $<
+
+
+.PHONY: clean
+clean:
+	rm -f *.o *.x *.txt *.pdf
+
